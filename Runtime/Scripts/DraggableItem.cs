@@ -49,6 +49,12 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
+    private void ResetPosition()
+    {
+        transform.SetParent(originalParent);
+        transform.localPosition = Vector3.zero;
+    }
+
     private UIInventorySlot FindNearestSlot(PointerEventData eventData)
     {
         // 마우스 위치에서 가장 가까운 슬롯을 찾는 로직
@@ -61,7 +67,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         return null;
     }
 
-    private void MoveToSlot(UIInventorySlot newSlot)
+    protected virtual void MoveToSlot(UIInventorySlot newSlot)
     {
         if (currentSlot != null)
         {
@@ -71,13 +77,5 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         currentSlot = newSlot;
         transform.SetParent(newSlot.transform); // 슬롯을 새로운 부모로 설정
         transform.localPosition = Vector3.zero; // 슬롯 중앙 정렬
-
-        newSlot.SetItem(this); // 새로운 슬롯에 아이템 등록
-    }
-
-    private void ResetPosition()
-    {
-        transform.SetParent(originalParent);
-        transform.localPosition = Vector3.zero;
     }
 }

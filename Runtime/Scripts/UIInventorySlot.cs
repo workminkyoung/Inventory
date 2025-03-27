@@ -8,18 +8,25 @@ using UnityEngine.EventSystems;
 [System.Serializable]
 public class UIInventorySlot : MonoBehaviour, IDropHandler
 {
-    private DraggableItem currentItem;
-    public int quantity;
+    private UIInventoryItem _currentItem;
+    private int _quantity;
 
-    public UIInventorySlot(DraggableItem item, int quantity)
-    {
-        this.currentItem = item;
-        this.quantity = quantity;
+    public UIInventoryItem Item
+    { 
+        get { return _currentItem; } 
+        set { _currentItem = value; } 
     }
+
+    public UIInventorySlot(UIInventoryItem item, int quantity)
+    {
+        this._currentItem = item;
+        this._quantity = quantity;
+    }
+
 
     public void OnDrop(PointerEventData eventData)
     {
-        DraggableItem item = eventData.pointerDrag.GetComponent<DraggableItem>();
+        UIInventoryItem item = eventData.pointerDrag.GetComponent<UIInventoryItem>();
 
         if (item != null)
         {
@@ -44,17 +51,12 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler
 
     public bool IsEmpty()
     {
-        return currentItem == null;
-    }
-
-    public void SetItem(DraggableItem item)
-    {
-        currentItem = item;
+        return _currentItem == null;
     }
 
     public void RemoveItem()
     {
-        currentItem = null;
+        _currentItem = null;
     }
 
 }

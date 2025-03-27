@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class UIInventoryPage : MonoBehaviour
@@ -13,7 +12,10 @@ public class UIInventoryPage : MonoBehaviour
     [SerializeField]
     private List<UIInventorySlot> _inventorySlots = new List<UIInventorySlot>();
 
-    public void InitializeInventoryUI(int inventorySize)
+    [SerializeField]
+    private UIInventorySlot _selectedSlot;
+
+    public void InitializeInventoryUI(int inventorySize = 32)
     {
         for (int i = 0; i < inventorySize; i++)
         {
@@ -25,5 +27,25 @@ public class UIInventoryPage : MonoBehaviour
     public void SetActiveInventory(bool state)
     {
         gameObject.SetActive(state);
+    }
+
+    public void DropItem()
+    {
+        if (_selectedSlot == null)
+        {
+            Debug.Log("No item selected to drop!");
+            return;
+        }
+
+        DropItemToMap(_selectedSlot.Item, Vector3.zero);
+        _selectedSlot.RemoveItem();
+        _selectedSlot = null;
+    }
+
+    public void DropItemToMap(UIInventoryItem item, Vector3 dropPos)
+    {
+        // TODO
+        // 캐릭터 기준으로 인스턴싱
+        // 드롭될 아이템 프리팹 만들기
     }
 }
